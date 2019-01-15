@@ -58,7 +58,7 @@ void show();	//输出链表
 把src/DoublyLinkedList.cpp添加到你的源文件中  
 以下为示例代码
 ```cpp
-#include"DoublyLinkedList.h"
+#include"DoublyLinkedList.cpp"
 
 int main()
 {
