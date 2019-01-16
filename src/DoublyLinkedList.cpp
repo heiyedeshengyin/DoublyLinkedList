@@ -271,7 +271,7 @@ void DoublyLinkedList<T>::addAtTail(T _cur)
 template <typename T>
 void DoublyLinkedList<T>::addAtIndex(int index, T _cur)
 {
-	if (index<0 || index>size)
+	if (index < 0 || index > size)
 		cout << "addAtIndex函数错误,错误原因:index的值不符合规范" << endl;
 	else
 		if (index == 0)
