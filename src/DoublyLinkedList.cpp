@@ -16,6 +16,7 @@ limitations under the License.
 #ifndef DOUBLYLINKEDLIST
 #define DOUBLYLINKEDLIST
 #include<iostream>
+#include<vector>
 using namespace std;
 
 //================双链表的结点================
@@ -45,10 +46,12 @@ private:
 public:
 	DoublyLinkedList();	//无参构造函数
 	DoublyLinkedList(T x);	//含参构造函数
+	DoublyLinkedList(vector<T> arr);	//含参构造函数
 	~DoublyLinkedList();	//析构函数
 	void creatList();	//按流程创建一个链表
 	int getSize();	//获取链表的元素个数
 	bool isEmpty();	//判断链表是否为空
+	void clear();	//清空链表
 	void addAtHead(T _cur);	//添加元素到第一个元素前
 	void addAtTail(T _cur);	//添加元素到最后一个元素后
 	void addAtIndex(int index, T _cur);	//添加元素到指定位置
@@ -61,7 +64,10 @@ public:
 	T setHead(T _cur);	//修改第一个元素
 	T setTail(T _cur);	//修改最后一个元素
 	T set(int index, T _cur);	//修改指定元素
+	vector<T> list2Vector();	//链表转vector型数组
+	T* list2Array();	//链表转普通数组
 	void show();	//输出链表
+	T operator[] (int r);	//重载[]运算符
 };
 
 //================函数的实现================
@@ -78,7 +84,7 @@ DoublyLinkedList<T>::DoublyLinkedList()
 
 //------------------------------------------------------------------
 /*
-	双链表的含参构造函数
+	双链表的含参构造函数,构造一个只有一个元素的链表
 	T x:第一个元素的值
 */
 template <typename T>
@@ -87,6 +93,38 @@ DoublyLinkedList<T>::DoublyLinkedList(T x)
 	head = new Node<T>(x);
 	tail = head;
 	size = 1;
+}
+
+//------------------------------------------------------------------
+/*
+	双链表的含参构造函数,把vector型数组的值依次输入进链表
+	vector<T> arr:传进链表中的数组
+*/
+template <typename T>
+DoublyLinkedList<T>::DoublyLinkedList(vector<T> arr)
+{
+	if (arr.empty())
+	{
+		head = NULL;
+		tail = NULL;
+		size = 0;
+	}
+	else
+	{
+		head = new Node<T>(arr[0]);
+		Node<T> *p;
+		p = head;
+		for (int i = 1; i < arr.size(); i++)
+		{
+			Node<T> *temp;
+			temp = new Node<T>(arr[i]);
+			p->next = temp;
+			temp->prev = p;
+			p = p->next;
+		}
+		tail = p;
+		size = arr.size();
+	}
 }
 
 //------------------------------------------------------------------
@@ -202,6 +240,51 @@ template <typename T>
 bool DoublyLinkedList<T>::isEmpty()
 {
 	return size == 0;
+}
+
+//------------------------------------------------------------------
+/*
+	清空链表
+
+	@Return void
+*/
+template <typename T>
+void DoublyLinkedList<T>::clear()
+{
+	if (size == 0)
+		cout << "clear函数错误,错误原因:链表为空";
+	else
+	{
+		Node<T> *p;
+		Node<T> *q;
+		p = head;
+		q = tail;
+		while (p->next != q && p != q)
+		{
+			p = p->next;
+			delete head;
+			head = p;
+			q = q->prev;
+			delete tail;
+			tail = q;
+		}
+		if (p == q)
+		{
+			delete p;
+			p = NULL;
+			q = NULL;
+		}
+		else
+		{
+			delete q;
+			delete p;
+			p = NULL;
+			q = NULL;
+		}
+		head = NULL;
+		tail = NULL;
+		size = 0;
+	}
 }
 
 //------------------------------------------------------------------
@@ -577,6 +660,47 @@ T DoublyLinkedList<T>::set(int index, T _cur)
 
 //------------------------------------------------------------------
 /*
+	链表转vector型数组
+
+	@Return vector<T>
+*/
+template <typename T>
+vector<T> DoublyLinkedList<T>::list2Vector()
+{
+	vector<T> arr;
+	Node<T> *temp;
+	temp = head;
+	for (int i = 0; i < size; i++)
+	{
+		arr.push_back(temp->data);
+		temp = temp->next;
+	}
+	return arr;
+}
+
+//------------------------------------------------------------------
+/*
+	链表转普通数组
+
+	@Return T*
+*/
+template <typename T>
+T* DoublyLinkedList<T>::list2Array()
+{
+	T* arr;
+	Node<T> *temp;
+	temp = head;
+	arr = new T[size];
+	for (int i = 0; i < size; i++)
+	{
+		arr[i] = temp->data;
+		temp = temp->next;
+	}
+	return arr;
+}
+
+//------------------------------------------------------------------
+/*
 	输出链表
 
 	@Return void
@@ -591,17 +715,37 @@ void DoublyLinkedList<T>::show()
 
 //------------------------------------------------------------------
 /*
-	输出链表
+	重载[]操作符
+
+	@Return T
+*/
+template <typename T>
+T DoublyLinkedList<T>::operator[] (int r)
+{
+	if (r < 0 || r >= size)
+		return NULL;
+	else
+		return get(r);
+}
+
+//------------------------------------------------------------------
+/*
+	重载<<操作符
 
 	@Return ostream
 */
 template <typename T>
 ostream &operator<<(ostream &os, DoublyLinkedList<T> &m)
 {
-	for (int i = 0; i < m.getSize() - 1; i++)
-		os << m.get(i) << " -> ";
-	os << m.getTail();
-	return os;
+	if (m.getSize() == 0)
+		return os;
+	else
+	{
+		for (int i = 0; i < m.getSize() - 1; i++)
+			os << m.get(i) << " -> ";
+		os << m.getTail();
+		return os;
+	}
 }
 
 #endif // !DOUBLYLINKEDLIST
