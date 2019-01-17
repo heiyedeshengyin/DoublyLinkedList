@@ -36,10 +36,12 @@ class DoublyLinkedList
 ### 函数列表
 DoublyLinkedList();	//无参构造函数  
 DoublyLinkedList(T x);	//含参构造函数  
+DoublyLinkedList(vector\<T\> arr);	//含参构造函数  
 ~DoublyLinkedList();	//析构函数  
 void creatList();	//按流程创建一个链表  
 int getSize();	//获取链表的元素个数  
 bool isEmpty();	//判断链表是否为空  
+void clear();	//清空链表  
 void addAtHead(T _cur);	//添加元素到第一个元素前  
 void addAtTail(T _cur);	//添加元素到最后一个元素后  
 void addAtIndex(int index, T _cur);	//添加元素到指定位置  
@@ -52,7 +54,10 @@ T remove(int index);	//删除指定元素
 T setHead(T _cur);	//修改第一个元素  
 T setTail(T _cur);	//修改最后一个元素  
 T set(int index, T _cur);	//修改指定元素  
+vector\<T\> list2Vector();	//链表转vector型数组  
+T* list2Array();	//链表转普通数组  
 void show();	//输出链表  
+T operator[] (int r);	//重载[]运算符  
 
 ### 使用说明
 把src/DoublyLinkedList.cpp添加到你的源文件中  
