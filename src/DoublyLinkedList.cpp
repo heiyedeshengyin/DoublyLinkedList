@@ -114,7 +114,7 @@ DoublyLinkedList<T>::DoublyLinkedList(vector<T> arr)
 		head = new Node<T>(arr[0]);
 		Node<T> *p;
 		p = head;
-		for (int i = 1; i < arr.size(); i++)
+		for (unsigned int i = 1; i < arr.size(); i++)
 		{
 			Node<T> *temp;
 			temp = new Node<T>(arr[i]);
@@ -191,6 +191,7 @@ void DoublyLinkedList<T>::creatList()
 			for (int i = 0; i < length; i++)
 				addAtTail(n[i]);
 			delete n;
+			n = NULL;
 		}
 		else
 			cout << "输入的值不符合规范,请输入大于0的整数" << endl;
@@ -210,6 +211,7 @@ void DoublyLinkedList<T>::creatList()
 			for (int i = 0; i < length - 1; i++)
 				addAtTail(n[i]);
 			delete n;
+			n = NULL;
 		}
 		else
 			cout << "输入的值不符合规范,请输入大于0的整数" << endl;
@@ -487,6 +489,7 @@ T DoublyLinkedList<T>::removeHead()
 		size--;
 		T _data = removed->data;
 		delete removed;
+		removed = NULL;
 		return _data;
 	}
 }
@@ -517,6 +520,7 @@ T DoublyLinkedList<T>::removeTail()
 		size--;
 		T _data = removed->data;
 		delete removed;
+		removed = NULL;
 		return _data;
 	}
 }
@@ -554,6 +558,7 @@ T DoublyLinkedList<T>::remove(int index)
 			size--;
 			T _data = removed->data;
 			delete removed;
+			removed = NULL;
 			return _data;
 		}
 		else
@@ -569,6 +574,7 @@ T DoublyLinkedList<T>::remove(int index)
 			size--;
 			T _data = removed->data;
 			delete removed;
+			removed = NULL;
 			return _data;
 		}
 }
